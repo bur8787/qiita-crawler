@@ -2,7 +2,9 @@ plugins {
 	//依存ライブラリを含む実行可能Jarの作成
 	id 'com.github.johnrengelman.shadow' version '2.0.1'
 	id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id "org.sonarqube" version "2.5"
 }
+
 apply plugin: "io.spring.dependency-management"
 apply plugin: 'java'
 apply plugin: 'eclipse'
