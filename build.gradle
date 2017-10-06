@@ -1,0 +1,32 @@
+plugins {
+	//依存ライブラリを含む実行可能Jarの作成
+	id 'com.github.johnrengelman.shadow' version '2.0.1'
+	id "io.spring.dependency-management" version "1.0.3.RELEASE"
+}
+apply plugin: "io.spring.dependency-management"
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+dependencyManagement {
+	imports {
+		mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.169'
+	}
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-core
+	compile group: 'com.amazonaws', name: 'aws-lambda-java-core', version: '1.1.0'
+	compile 'com.amazonaws:aws-java-sdk-dynamodb'
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.10.3'
+    testCompile 'junit:junit:4.12'
+}
+
+task crawl(type: JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	main = 'CrawlHandler'
+}
