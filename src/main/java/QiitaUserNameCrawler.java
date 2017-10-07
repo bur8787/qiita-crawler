@@ -133,10 +133,10 @@ public class QiitaUserNameCrawler implements CrawlerInterface{
 		return Integer.parseInt(createdDateString);
 	}
 
-	private static String nextChar(String presentChar) {
+	public static String nextChar(String presentChar) {
 		for (int i = 0; i < USER_ID_INITIAL.size(); i++) {
 			if (presentChar.equals(USER_ID_INITIAL.get(i))) {
-				if (i == USER_ID_INITIAL.size()) {
+				if (i == USER_ID_INITIAL.size() -1 ) {
 					return null;
 				}
 				return USER_ID_INITIAL.get(i + 1);
@@ -144,6 +144,5 @@ public class QiitaUserNameCrawler implements CrawlerInterface{
 		}
 		return null;
 	}
-
 
 }

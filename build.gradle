@@ -1,13 +1,12 @@
 plugins {
-	//依存ライブラリを含む実行可能Jarの作成
-	id 'com.github.johnrengelman.shadow' version '2.0.1'
-	id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id 'java'
+    id 'groovy'
+    id 'idea'
+    id 'com.github.johnrengelman.shadow' version '2.0.1' //依存ライブラリを含む実行可能Jarの作成
+    id "io.spring.dependency-management" version "1.0.3.RELEASE"
     id "org.sonarqube" version "2.5"
 }
 
-apply plugin: "io.spring.dependency-management"
-apply plugin: 'java'
-apply plugin: 'eclipse'
 
 dependencyManagement {
 	imports {
@@ -26,6 +25,9 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.jsoup/jsoup
 	compile group: 'org.jsoup', name: 'jsoup', version: '1.10.3'
     testCompile 'junit:junit:4.12'
+    // mandatory dependencies for using Spock
+    compile "org.codehaus.groovy:groovy-all:2.4.10"
+    testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
 
 task crawl(type: JavaExec) {
