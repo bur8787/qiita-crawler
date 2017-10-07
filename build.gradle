@@ -4,9 +4,9 @@ plugins {
     id 'idea'
     id 'com.github.johnrengelman.shadow' version '2.0.1' //依存ライブラリを含む実行可能Jarの作成
     id "io.spring.dependency-management" version "1.0.3.RELEASE"
+    id "jacoco"
     id "org.sonarqube" version "2.5"
 }
-
 
 dependencyManagement {
 	imports {
@@ -29,6 +29,17 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:2.4.10"
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
+
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+
+
 
 task crawl(type: JavaExec) {
 	classpath = sourceSets.main.runtimeClasspath
