@@ -11,7 +11,7 @@ class QiitaUserNameCrawlerTest extends Specification {
         test == expected
 
         where:
-        c | expected
+        c   | expected
         "A" | "B"
         "Z" | "0"
         "0" | "1"
