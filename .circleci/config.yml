@@ -5,4 +5,4 @@ jobs:
        - image: circleci/java:8u121-jdk
      steps:
        - checkout
-       - run: ./gradlew test
+       - run: ./gradlew test jacocoTestReport
