@@ -23,63 +23,6 @@ public class QiitaUserNameCrawler implements CrawlerInterface {
       "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2",
       "3", "4", "5", "6", "7", "8", "9", "_");
 
-  public CrawlResult crawl(CrawlQueue queue) {
-    String initialChar = queue.getParameterAttribute("initial_char").getS();
-    int pageNo = Integer.parseInt(queue.getParameterAttribute("page_no")
-        .getN());
-    List<QiitaUser> qiitaUserList = null;
-    try {
-      List<String> userList = fetchUser(initialChar, pageNo);
-      qiitaUserList = mapQiitaUser(userList);
-      saveQiitaUser(qiitaUserList);
-    } catch (InterruptedException | IOException e) {
-      e.printStackTrace();
-    }
-    int crawlCount;
-    if (qiitaUserList == null || qiitaUserList.isEmpty()) {
-      crawlCount = 0;
-    } else {
-      crawlCount = qiitaUserList.size();
-    }
-    CrawlResult result = new CrawlResult();
-    result.setQueue(queue);
-    result.setCrawlCount(crawlCount);
-    return result;
-  }
-
-
-  public CrawlQueue createNextQueue(CrawlResult result) {
-    CrawlQueue nextQueue = new CrawlQueue();
-    HashMap<String, AttributeValue> parameterMap = new HashMap<String, AttributeValue>();
-    String initialChar = result.getQueue()
-        .getParameterAttribute("initial_char").getS();
-    int pageNo = Integer.parseInt(result.getQueue()
-        .getParameterAttribute("page_no").getN());
-    if (result.getCrawlCount() == 0) {
-      String nextChar = nextChar(initialChar);
-      if (nextChar == null) {
-        return null;
-      }
-      AttributeValue value1 = new AttributeValue();
-      value1.setS(nextChar);
-      parameterMap.put("initial_char", value1);
-      AttributeValue value2 = new AttributeValue();
-      value2.setN("1");
-      parameterMap.put("page_no", value2);
-    } else {
-      parameterMap.put("initial_char", result.getQueue()
-          .getParameterAttribute("initial_char"));
-      AttributeValue value2 = new AttributeValue();
-      pageNo += 1;
-      String pageNoStr = String.valueOf(pageNo);
-      value2.setN(pageNoStr);
-      parameterMap.put("page_no", value2);
-    }
-    nextQueue.setParameter(parameterMap);
-    return nextQueue;
-  }
-
-
   private static List<String> fetchUser(String initialChar, int pageNo)
       throws InterruptedException, IOException {
     LinkedList<String> userList = new LinkedList<String>();
@@ -142,6 +85,61 @@ public class QiitaUserNameCrawler implements CrawlerInterface {
       }
     }
     return null;
+  }
+
+  public CrawlResult crawl(CrawlQueue queue) {
+    String initialChar = queue.getParameterAttribute("initial_char").getS();
+    int pageNo = Integer.parseInt(queue.getParameterAttribute("page_no")
+        .getN());
+    List<QiitaUser> qiitaUserList = null;
+    try {
+      List<String> userList = fetchUser(initialChar, pageNo);
+      qiitaUserList = mapQiitaUser(userList);
+      saveQiitaUser(qiitaUserList);
+    } catch (InterruptedException | IOException e) {
+      e.printStackTrace();
+    }
+    int crawlCount;
+    if (qiitaUserList == null || qiitaUserList.isEmpty()) {
+      crawlCount = 0;
+    } else {
+      crawlCount = qiitaUserList.size();
+    }
+    CrawlResult result = new CrawlResult();
+    result.setQueue(queue);
+    result.setCrawlCount(crawlCount);
+    return result;
+  }
+
+  public CrawlQueue createNextQueue(CrawlResult result) {
+    CrawlQueue nextQueue = new CrawlQueue();
+    HashMap<String, AttributeValue> parameterMap = new HashMap<String, AttributeValue>();
+    String initialChar = result.getQueue()
+        .getParameterAttribute("initial_char").getS();
+    int pageNo = Integer.parseInt(result.getQueue()
+        .getParameterAttribute("page_no").getN());
+    if (result.getCrawlCount() == 0) {
+      String nextChar = nextChar(initialChar);
+      if (nextChar == null) {
+        return null;
+      }
+      AttributeValue value1 = new AttributeValue();
+      value1.setS(nextChar);
+      parameterMap.put("initial_char", value1);
+      AttributeValue value2 = new AttributeValue();
+      value2.setN("1");
+      parameterMap.put("page_no", value2);
+    } else {
+      parameterMap.put("initial_char", result.getQueue()
+          .getParameterAttribute("initial_char"));
+      AttributeValue value2 = new AttributeValue();
+      pageNo += 1;
+      String pageNoStr = String.valueOf(pageNo);
+      value2.setN(pageNoStr);
+      parameterMap.put("page_no", value2);
+    }
+    nextQueue.setParameter(parameterMap);
+    return nextQueue;
   }
 
 }

@@ -1,4 +1,3 @@
-
 public class QiitaUserContributionCrawler implements CrawlerInterface {
 
   @Override

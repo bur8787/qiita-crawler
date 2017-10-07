@@ -1,5 +1,5 @@
-
 public interface CrawlerInterface {
-	CrawlResult crawl(CrawlQueue queue);
-	CrawlQueue createNextQueue(CrawlResult result);
+  CrawlResult crawl(CrawlQueue queue);
+
+  CrawlQueue createNextQueue(CrawlResult result);
 }
