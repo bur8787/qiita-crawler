@@ -5,4 +5,4 @@ jobs:
        - image: circleci/java:8u121-jdk
      steps:
        - checkout
-       - run: echo "hello world"
+       - run: ./gradlew test
