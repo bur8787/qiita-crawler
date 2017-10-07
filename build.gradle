@@ -6,6 +6,8 @@ plugins {
     id "io.spring.dependency-management" version "1.0.3.RELEASE"
     id "jacoco"
     id "org.sonarqube" version "2.5"
+    id 'checkstyle'
+    id 'findbugs'
 }
 
 dependencyManagement {
@@ -30,6 +32,13 @@ dependencies {
     testCompile "org.spockframework:spock-core:1.1-groovy-2.4"
 }
 
+checkstyle {
+    toolVersion '8.2'
+}
+
+findbugs {
+    toolVersion '3.0.1'
+}
 
 jacocoTestReport {
     reports {
@@ -38,8 +47,6 @@ jacocoTestReport {
         html.destination file("${buildDir}/jacocoHtml")
     }
 }
-
-
 
 task crawl(type: JavaExec) {
 	classpath = sourceSets.main.runtimeClasspath
